@@ -1,0 +1,18 @@
+from collections import Counter
+
+from readysetbet.components import GameSession
+from readysetbet.game_loop import keep_playing, loop
+
+
+def play_one_session() -> str:
+    game_session = GameSession()
+    while keep_playing(game_session):
+        loop(game_session)
+    return game_session.race_track.winning_horse
+
+
+def play_n_sessions(n: int) -> Counter:
+    winners = Counter()
+    for _ in range(n):
+        winners[play_one_session()] += 1
+    return winners
