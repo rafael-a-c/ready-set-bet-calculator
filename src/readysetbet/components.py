@@ -65,23 +65,21 @@ def get_bonus(curr_roll: int, apply_bonus: bool, bonus: dict = BONUS_ADVANCE) ->
 @dataclass
 class RaceTrack:
     horse_position: Counter = field(default_factory=make_initial_state)
+    winner: Horse | None = None
 
     def update_horse_position(self, current_roll: int, apply_bonus: bool):
         bonus_moves = get_bonus(current_roll, apply_bonus)
-        self.horse_position[Horse(current_roll)] += 1 + bonus_moves
-
-    @property
-    def winning_horse_at(self) -> int:
-        horses = self.horse_position
-        return horses.most_common(1)[0][1]
-
-    @property
-    def winning_horse(self) -> str:
-        horses = self.horse_position
-        return horses.most_common(1)[0][0].name
+        moving_horse = Horse(current_roll)
+        self.horse_position[moving_horse] += 1 + bonus_moves
+        if self.horse_position[moving_horse] >= 15:
+            self.winner = moving_horse
 
 
 @dataclass
 class GameSession:
     race_track: RaceTrack = field(default_factory=RaceTrack)
     dice_history: DiceHistory = field(default_factory=DiceHistory)
+
+    @property
+    def is_over(self):
+        return self.race_track.winner is not None

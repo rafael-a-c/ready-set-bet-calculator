@@ -1,15 +1,15 @@
 import time
 from collections import Counter
 
-from readysetbet.components import GameSession
-from readysetbet.game_loop import keep_playing, loop
+from readysetbet.components import GameSession, Horse
+from readysetbet.game_loop import loop
 
 
-def play_one_session() -> str:
+def play_one_session() -> Horse | None:
     game_session = GameSession()
-    while keep_playing(game_session):
+    while not game_session.is_over:
         loop(game_session)
-    return game_session.race_track.winning_horse
+    return game_session.race_track.winner
 
 
 def play_n_sessions(n: int) -> Counter:
