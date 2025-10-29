@@ -14,7 +14,7 @@ class Horse(Enum):
     Represents the unique horses on the track.
     """
 
-    H3 = 3
+    H2_3 = 3
     H4 = 4
     H5 = 5
     H6 = 6
@@ -22,7 +22,7 @@ class Horse(Enum):
     H8 = 8
     H9 = 9
     H10 = 10
-    H11 = 11
+    H11_12 = 11
 
 
 def roll_dice():
@@ -56,9 +56,7 @@ def make_initial_state():
     return initial_state
 
 
-def get_bonus(curr_roll: int, apply_bonus: bool, bonus: dict = BONUS_ADVANCE) -> int:
-    if apply_bonus is False:
-        return 0
+def get_bonus(curr_roll: int, bonus: dict = BONUS_ADVANCE) -> int:
     return bonus[curr_roll]
 
 
@@ -67,8 +65,7 @@ class RaceTrack:
     horse_position: Counter = field(default_factory=make_initial_state)
     winner: Horse | None = None
 
-    def update_horse_position(self, current_roll: int, apply_bonus: bool):
-        bonus_moves = get_bonus(current_roll, apply_bonus)
+    def update_horse_position(self, current_roll: int, bonus_moves: int):
         moving_horse = Horse(current_roll)
         self.horse_position[moving_horse] += 1 + bonus_moves
         if self.horse_position[moving_horse] >= 15:
@@ -79,7 +76,16 @@ class RaceTrack:
 class GameSession:
     race_track: RaceTrack = field(default_factory=RaceTrack)
     dice_history: DiceHistory = field(default_factory=DiceHistory)
+    current_roll: int = field(init=False, default=0)
 
     @property
     def is_over(self):
         return self.race_track.winner is not None
+
+    def step(self):
+        self.current_roll = roll_dice()
+        self.dice_history.update_roll(self.current_roll)
+
+        apply_bonus = self.dice_history.bonus_advance_check
+        bonus_moves = get_bonus(self.current_roll) if apply_bonus else 0
+        self.race_track.update_horse_position(self.current_roll, bonus_moves)
