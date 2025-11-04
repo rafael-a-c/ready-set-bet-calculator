@@ -147,7 +147,21 @@ def draw_end_race_display(stdscr, game: GameSession):
     stdscr.getch()
 
 
-def draw_race_board(stdscr, game: GameSession):
+def draw_probility_board(stdscr, game: GameSession, probabilities: dict):
+    horses_to_display = sorted(list(Horse), key=lambda h: h.value)
+    for i, horse in enumerate(horses_to_display):
+        y = TRACK_START_Y + i * 2
+        horse_tui_info = get_horse_info(horse, game)
+        annotation_x = TRACK_START_X + MAX_TRACK_LENGTH + 4
+        stdscr.addstr(
+            y,
+            annotation_x,
+            f"P(Win): {probabilities[horse]:.2%}",
+            horse_tui_info.color_attr,
+        )
+
+
+def draw_race_board(stdscr, game: GameSession, probabilities: dict):
     """Draws the current state of the race and annotations."""
     stdscr.clear()
 
@@ -155,11 +169,11 @@ def draw_race_board(stdscr, game: GameSession):
     draw_header(stdscr, game)
     # Iterate through all horses in a standard display order
     draw_horse_tracks(stdscr, game)
+
     # horses_to_display = sorted(list(Horse), key=lambda h: h.value)
-    #
     # for i, horse in enumerate(horses_to_display):
-    #     # --- 3. Annotated Probability ---
-    #     annotation_x = TRACK_START_X + MAX_TRACK_LENGTH + 5
-    #     stdscr.addstr(y, annotation_x, f"P(Win): {prob:.4f}", horse_color_attr)
-    #
+
+    # --- 3. Annotated Probability ---
+    draw_probility_board(stdscr, game, probabilities)
+
     stdscr.refresh()

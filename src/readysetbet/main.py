@@ -2,7 +2,10 @@ import curses
 import time
 
 from readysetbet.components import GameSession
+from readysetbet.simulation import calculate_probability
 from readysetbet.tui import draw_end_race_display, draw_race_board, init_colors
+
+NUM_SIMULATIONS = 1000
 
 
 def run_animated_race(stdscr, animation_speed: float):
@@ -13,11 +16,14 @@ def run_animated_race(stdscr, animation_speed: float):
     stdscr.nodelay(True)
 
     while not game.is_over:
+        # 0. Calculate probabilities:
+        probabilities = calculate_probability(NUM_SIMULATIONS, game.race_track)
+
         # 1. Run one step of the game logic
         game.step()
 
         # 2. Draw the updated state
-        draw_race_board(stdscr, game)
+        draw_race_board(stdscr, game, probabilities)
 
         # 3. Control animation speed
         time.sleep(animation_speed)
@@ -34,8 +40,7 @@ def run_animated_race(stdscr, animation_speed: float):
 # =========================================================================
 
 if __name__ == "__main__":
-    NUM_SIMULATIONS = 20000
-    ANIMATION_SPEED = 0.25  # Time in seconds between moves
+    ANIMATION_SPEED = 0.95  # Time in seconds between moves
 
     try:
         # The curses.wrapper handles initialization and safe cleanup of the terminal
