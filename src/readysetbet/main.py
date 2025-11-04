@@ -17,7 +17,7 @@ def run_animated_race(stdscr, animation_speed: float):
 
     while not game.is_over:
         # 0. Calculate probabilities:
-        probabilities = calculate_probability(NUM_SIMULATIONS, game.race_track)
+        probabilities = calculate_probability(NUM_SIMULATIONS, game)
 
         # 1. Run one step of the game logic
         game.step()
