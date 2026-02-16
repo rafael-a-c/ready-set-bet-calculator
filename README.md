@@ -1,6 +1,6 @@
 # 🐎 Ready Set Bet: Monte Carlo TUI Simulator
 
-A high-performance, terminal-based horse racing simulator inspired by the board game _Ready Set Bet_. This application combines a **Monte Carlo simulation engine** with a real-time **Text User Interface (TUI)** to predict and visualize race outcomes dynamically.
+A high-performance, terminal-based horse racing simulator inspired by the board game [_Ready Set Bet_](https://boardgamegeek.com/boardgame/351040/ready-set-bet). This application combines a **Monte Carlo simulation engine** with a real-time **Text User Interface (TUI)** to predict and visualize race outcomes dynamically.
 
 ![Race Demo](./docs/demo.gif)
 
