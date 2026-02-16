@@ -6,6 +6,7 @@ from readysetbet.simulation import calculate_probability
 from readysetbet.tui import draw_end_race_display, draw_race_board, init_colors
 
 NUM_SIMULATIONS = 1000
+ANIMATION_SPEED = 0.35  # Time in seconds between moves
 
 
 def run_animated_race(stdscr, animation_speed: float):
@@ -39,9 +40,8 @@ def run_animated_race(stdscr, animation_speed: float):
 # 3. MAIN EXECUTION
 # =========================================================================
 
-if __name__ == "__main__":
-    ANIMATION_SPEED = 0.95  # Time in seconds between moves
 
+def main():
     try:
         # The curses.wrapper handles initialization and safe cleanup of the terminal
         curses.wrapper(lambda stdscr: run_animated_race(stdscr, ANIMATION_SPEED))
@@ -50,3 +50,7 @@ if __name__ == "__main__":
         print(
             "Please ensure your terminal window is large enough and curses is installed correctly."
         )
+
+
+if __name__ == "__main__":
+    main()
