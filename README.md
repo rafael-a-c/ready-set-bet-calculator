@@ -30,8 +30,8 @@ curl -LsSf [https://astral-sh.uv/install.sh](https://astral-sh.uv/install.sh) | 
 ### 1. Clone the repository
 
 ```bash
-git clone [https://github.com/your-username/ready-set-bet-tui.git](https://github.com/your-username/ready-set-bet-tui.git)
-cd ready-set-bet-tui
+git clone [https://github.com/rafael-a-c/ready-set-bet-calculator](https://github.com/rafael-a-c/ready-set-bet-calculator)
+cd ready-set-bet-calculator
 ```
 
 ### 2. Sync dependencies
